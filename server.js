@@ -50,7 +50,7 @@ dotenv.config();
 const app = express();
 
 // 🔥 IMPORTANT for Render (it sets PORT in env)
-const PORT = process.env.PORT || 4300;
+const PORT = 4300;
 
 app.use(cors());          // allow frontend (GitHub Pages) to call this API
 app.use(express.json());
