@@ -100,7 +100,8 @@ app.post("/chat", async (req, res) => {
   res.json({ reply });
 });
 
-app.listen(4300, () => console.log("Server running on 4300"));
+app.listen(4300, () => console.log("Server running on 4300"));<img width="2816" height="1536" alt="flow-chart" src="https://github.com/user-attachments/assets/66dbf0fc-c5d8-4c41-80b3-ebc499c1d56c" />
+
 
 🛠️ Technologies Used
 
@@ -112,8 +113,11 @@ Tavily Search
 
 NodeCache
 
+
 Tool Calling Architecture
 
 🤝 Contributing
 
 Feel free to submit PRs or issues.
+
+
