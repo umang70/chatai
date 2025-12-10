@@ -43,16 +43,16 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { generate, clearMemory } from "./chatbot.js";
+import { generate, generateImageResponse, clearMemory } from "./chatbot.js";
 
 dotenv.config();
 
 const app = express();
 
-// 🔥 IMPORTANT for Render (it sets PORT in env)
-const PORT = 4300;
+// ✅ Use PORT from environment or default to 4300
+const PORT = process.env.PORT || 4300;
 
-app.use(cors());          // allow frontend (GitHub Pages) to call this API
+app.use(cors());
 app.use(express.json());
 
 // ✅ Simple health check
@@ -77,6 +77,23 @@ app.post("/chat", async (req, res) => {
   }
 });
 
+// 🎨 Image generation endpoint
+app.post("/generate-image", async (req, res) => {
+  try {
+    const { prompt } = req.body;
+
+    if (!prompt || !prompt.trim()) {
+      return res.status(400).json({ error: "Prompt is empty" });
+    }
+
+    const imageUrl = await generateImageResponse(prompt);
+    res.json({ imageUrl, prompt });
+  } catch (err) {
+    console.error("Image generation error:", err);
+    res.status(500).json({ error: err.message || "Image generation failed" });
+  }
+});
+
 // 🧠 Clear memory endpoint
 app.post("/clear-memory", (req, res) => {
   try {
@@ -84,6 +101,7 @@ app.post("/clear-memory", (req, res) => {
     clearMemory(threadId);
     res.json({ message: "Memory cleared" });
   } catch (err) {
+    console.error("Clear memory error:", err);
     res.status(500).json({ error: err.message });
   }
 });
